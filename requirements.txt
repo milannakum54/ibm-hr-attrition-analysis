@@ -4,4 +4,8 @@ matplotlib
 seaborn
 scipy
 scikit-learn
-jupyter
+notebook
+ipykernel
+nbformat
+nbclient
+pytest
