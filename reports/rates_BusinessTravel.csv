@@ -1,0 +1,4 @@
+BusinessTravel,n,left,rate_pct,small_group
+Non-Travel,150,12,8.0,False
+Travel_Frequently,277,69,24.90974729241877,False
+Travel_Rarely,1043,156,14.956855225311601,False

@@ -1,0 +1,24 @@
+{
+  "raw_rows": 1470,
+  "raw_columns": 35,
+  "clean_rows": 1470,
+  "duplicates_removed": 0,
+  "missing_cells": 0,
+  "dropped_columns": [
+    "EmployeeCount",
+    "Over18",
+    "StandardHours",
+    "EmployeeNumber"
+  ],
+  "retained_required_constants": [],
+  "retained_predictor_constants": [],
+  "clean_columns": 36,
+  "validation_policy": "Reject missing/invalid values; remove exact duplicates; reject conflicting IDs.",
+  "rate_income_spearman": {
+    "DailyRate": 0.016259651841387765,
+    "HourlyRate": -0.019761721893346577,
+    "MonthlyRate": 0.054276765991858045
+  },
+  "rate_column_decision": "Retained; correlation alone is insufficient grounds for removal.",
+  "sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659"
+}

@@ -1,0 +1,13 @@
+{
+  "input_sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+  "rows": 1470,
+  "figures": [
+    "01_attrition_distribution.png",
+    "02_overtime.png",
+    "03_department_jobrole.png",
+    "04_age_groups.png",
+    "06_job_level.png",
+    "07_satisfaction.png",
+    "10_business_travel.png"
+  ]
+}
