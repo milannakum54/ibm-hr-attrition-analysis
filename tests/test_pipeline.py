@@ -34,7 +34,11 @@ def test_full_cli_model_rerun_and_stale_output_cleanup(raw_path,tmp_path):
             assert min(image.size)>100
             image.verify()
     manifest=json.loads((out/'reports/run_manifest.json').read_text())
-    assert manifest['model_included'] and manifest['testable_comparisons']==12
+    assert manifest['model_included'] and manifest['testable_comparisons']==16
+    statistics=pd.read_csv(out/'reports/statistical_tests.csv')
+    assert manifest['total_comparisons']==len(statistics)==16
+    assert manifest['testable_comparisons']==int(statistics.status.eq('ok').sum())
+    assert 'Testable comparisons: 16/16.' in (out/'reports/results.md').read_text()
     assert len(manifest['figures'])==12
     metrics=pd.read_csv(out/'reports/model_metrics.csv'); assert len(metrics)==2
     first=digest_tree(out)
@@ -61,7 +65,11 @@ def test_full_analysis_supports_single_record_without_model(raw_frame,tmp_path):
     run_analysis.run(path,out)
     tests=pd.read_csv(out/'reports/statistical_tests.csv')
     assert (tests.status=='not_testable').all()
+    manifest=json.loads((out/'reports/run_manifest.json').read_text())
+    assert manifest['total_comparisons']==len(tests)==16
+    assert manifest['testable_comparisons']==0
     text=(out/'reports/results.md').read_text()
+    assert 'Testable comparisons: 0/16.' in text
     assert 'unavailable' in text and 'nan' not in text.lower()
     assert len(list((out/'visualizations').glob('*.png')))==12
 

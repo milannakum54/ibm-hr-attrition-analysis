@@ -59,7 +59,7 @@ def _generate(data_path, output_root, include_model):
         text.append('')
     text += ['## Statistical checks', '',
              'Full test statistics, effect sizes, raw p-values, Holm-adjusted p-values, status and assumptions are in statistical_tests.csv.',
-             f'Testable comparisons: {int((tests.status=="ok").sum())}/12. Undefined comparisons are marked not_testable; Holm adjustment covers only testable comparisons.',
+             f'Testable comparisons: {int((tests.status=="ok").sum())}/{len(tests)}. Undefined comparisons are marked not_testable; Holm adjustment covers only testable comparisons.',
              'Exploratory tests describe associations. Statistical significance does not measure practical importance.', '']
     text += ['## Actual outcomes for the 12 proposal figures', '',
              '| Figure | Computed outcome |', '|---|---|',
@@ -91,6 +91,7 @@ def _generate(data_path, output_root, include_model):
              'Charts and tables are computed from the input file. Review them before writing HR interpretations.']
     (reports/'results.md').write_text('\n'.join(text)+'\n',encoding='utf-8')
     manifest = {'input_sha256':quality['sha256'], 'rows':len(df), 'model_included':include_model,
+                'total_comparisons':len(tests),
                 'testable_comparisons':int((tests.status=='ok').sum()),
                 'figures':[p.name for p in figures]}
     (reports/'run_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')

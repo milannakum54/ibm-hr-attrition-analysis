@@ -42,7 +42,7 @@ def statistical_checks(df):
         if usable.sum() < 3 or values[usable].nunique() < 2 or df.loc[usable, 'AttritionFlag'].nunique() < 2:
             rows.append({'feature':col + ' (trend)', 'test':'Spearman', 'status':'not_testable',
                          'statistic':np.nan, 'p_value':np.nan, 'effect_name':effect_name, 'effect':np.nan,
-                         'assumption_note':'Need at least two ordinal levels and both attrition classes.'})
+                         'assumption_note':'Need at least three observations, two ordinal levels and both attrition classes.'})
             continue
         rho, p = spearmanr(values[usable], df.loc[usable, 'AttritionFlag'])
         rows.append({'feature':col + ' (trend)', 'test':'Spearman', 'status':'ok',

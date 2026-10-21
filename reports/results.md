@@ -46,7 +46,7 @@ Attrition: 237/1470 (16.12%).
 ## Statistical checks
 
 Full test statistics, effect sizes, raw p-values, Holm-adjusted p-values, status and assumptions are in statistical_tests.csv.
-Testable comparisons: 12/12. Undefined comparisons are marked not_testable; Holm adjustment covers only testable comparisons.
+Testable comparisons: 16/16. Undefined comparisons are marked not_testable; Holm adjustment covers only testable comparisons.
 Exploratory tests describe associations. Statistical significance does not measure practical importance.
 
 ## Actual outcomes for the 12 proposal figures

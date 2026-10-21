@@ -1,11 +1,12 @@
 {
-  "date": "2026-10-21",
+  "date": "2026-10-22",
   "python": "3.14.7",
   "platform": "Windows",
-  "tests": 310,
+  "tests": 317,
   "failures": 0,
+  "errors": 0,
   "randomized_cases": 140,
-  "test_duration_seconds": 40.63,
+  "test_duration_seconds": 59.043,
   "packages": {
     "pandas": "3.0.6",
     "numpy": "2.5.4",
@@ -13,8 +14,10 @@
     "matplotlib": "3.11.2",
     "seaborn": "0.13.2",
     "scikit-learn": "1.9.1",
-    "pytest": "9.1.1"
+    "pytest": "9.1.1",
+    "tornado": "6.6"
   },
+  "environment_note": "Reused existing project environment; Tornado 6.6 differs from locked 6.5.10. Fresh lock installation not verified.",
   "source_sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
   "notebooks": [
     {
@@ -39,7 +42,9 @@
     }
   ],
   "notebook_runner_exit_code": 0,
+  "notebook_startup_warnings": "Kernel TCP transport warning; no cell errors.",
   "figures": 12,
+  "statistical_comparisons": 16,
   "final_full_analysis": "passed, including model",
   "milan_analysis": "passed, seven figures"
 }

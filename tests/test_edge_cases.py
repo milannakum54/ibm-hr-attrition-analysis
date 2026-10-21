@@ -40,7 +40,7 @@ def test_one_class_statistics_return_explicit_unavailable_results(tmp_path):
     frame=pd.read_csv(RAW).query("Attrition == 'No'").head(20)
     df,_=prepare(csv_path(tmp_path,frame))
     results=statistical_checks(df)
-    assert len(results)==12
+    assert len(results)==16
     assert (results.status=='not_testable').all()
     assert results.p_value.isna().all()
 

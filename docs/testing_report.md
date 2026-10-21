@@ -1,16 +1,18 @@
 # Project-wide testing report
 
-Date: 2026-10-21. Scope: both Milan's and Rudra's code, shared runners and output generation.
+Date: 2026-10-22. Scope: both Milan's and Rudra's code, shared runners and output generation.
 
 ## Automated result
 
-**310 tests passed; zero failures.** The final pytest run completed in approximately 41 seconds on Windows with Python 3.14.7. It emitted no pytest warnings. This is a count of executed test cases, not a claim of 100% code coverage or exhaustive correctness.
+**317 tests passed; zero failures.** The final pytest run completed in approximately 59 seconds on Windows with Python 3.14.7. It emitted no pytest warnings. This is a count of executed test cases, not a claim of 100% code coverage or exhaustive correctness.
 
 Machine-readable evidence: [test_results.xml](../reports/qa/test_results.xml) and [summary.json](../reports/qa/summary.json).
 
+Verification reused an existing project environment. Analysis and pytest package versions match `requirements-lock.txt`; its Tornado version is 6.6 rather than the lock's 6.5.10. This run does not establish a fresh installation of the lock file. Notebook kernels emitted startup transport warnings, but all cells completed without error outputs.
+
 | Suite | Passed cases |
 |---|---:|
-| tests.test_analysis | 5 |
+| tests.test_analysis | 12 |
 | tests.test_edge_cases | 18 |
 | tests.test_milan | 11 |
 | tests.test_model_safety | 11 |
@@ -36,6 +38,15 @@ All five notebooks were executed from fresh kernels using the current project in
 - Simulated calculation, plotting and image-save permission failures; previous-output preservation during failed generation; directory/file collisions; prevention of overwriting/deleting the input CSV; figure cleanup after save failure.
 
 ## Defects found and fixed
+
+### Latest regression repair (2026-10-22)
+
+- The latest test edit left a `with pytest.raises(...)` block empty and moved its body below another test. Python raised `IndentationError` before pytest could collect the suite. Restored the conflicting-employee validation call to its original block and removed a duplicate import.
+- Four ordinal trend tests expanded the statistical family to 16 comparisons, but the report denominator, integration assertions, documentation and saved results still described 12. Reports now derive their denominator from the results table, the manifest records both total and testable counts, and the saved statistics use Holm adjustment across all 16 testable comparisons on the supplied sample. The project still generates 12 figures.
+- Restored the correlation-data selection outside the box-plot loop while preserving the recently added attrition correlation. Regenerated the heatmap and notebook outputs from the current code.
+- Added regression coverage for all four constant ordinal fields, the exclusion of undefined trends from Holm adjustment, two-record trend inputs, and agreement between CSV results, report text and manifest counts for complete and single-record data. The unavailable-trend explanation now states the three-observation minimum.
+
+### Earlier repairs retained
 
 1. Invalid constant numeric values could be dropped before validation. All present source fields are now checked first.
 2. Duplicate headers and ragged CSV records could be altered implicitly by the parser. CSV structure is checked explicitly before loading.

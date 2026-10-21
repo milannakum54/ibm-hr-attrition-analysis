@@ -2,7 +2,8 @@
   "input_sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
   "rows": 1470,
   "model_included": true,
-  "testable_comparisons": 12,
+  "total_comparisons": 16,
+  "testable_comparisons": 16,
   "figures": [
     "01_attrition_distribution.png",
     "02_overtime.png",

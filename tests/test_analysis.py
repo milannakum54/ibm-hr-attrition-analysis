@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import pytest
 from src.data import prepare, group_rates, RAW_NAME
-from src.statistics import holm
 from scipy.stats import spearmanr
 from src.statistics import holm, statistical_checks, ORDINAL_TESTS
 
@@ -35,6 +34,7 @@ def test_conflicting_employee_is_rejected(tmp_path):
     df = pd.read_csv(RAW); df.loc[1,'EmployeeNumber'] = df.loc[0,'EmployeeNumber']
     path = tmp_path/'bad.csv'; df.to_csv(path,index=False)
     with pytest.raises(ValueError, match='Conflicting'):
+        prepare(path)
 
 def test_ordinal_trend_tests_match_scipy(prepared):
     result = statistical_checks(prepared).set_index('feature')
@@ -51,11 +51,25 @@ def test_ordinal_trend_tests_are_in_holm_family(prepared):
     np.testing.assert_allclose(ok.p_holm, holm(ok.p_value))
     assert (ok.p_holm >= ok.p_value - 1e-12).all()
 
-def test_constant_ordinal_column_is_not_testable(prepared):
-    frame = prepared.copy(); frame['JobLevel'] = 1
-    row = statistical_checks(frame).set_index('feature').loc['JobLevel (trend)']
+@pytest.mark.parametrize('column', ORDINAL_TESTS)
+def test_constant_ordinal_column_is_not_testable(prepared, column):
+    frame = prepared.copy(); frame[column] = 1
+    results = statistical_checks(frame)
+    row = results.set_index('feature').loc[column + ' (trend)']
     assert row.status == 'not_testable' and np.isnan(row.p_value)
-        prepare(path)
+    assert np.isnan(row.p_holm)
+    ok = results.query("status == 'ok'")
+    np.testing.assert_allclose(ok.p_holm, holm(ok.p_value))
+
+
+def test_two_record_ordinal_trends_are_explicitly_unavailable(prepared):
+    frame = prepared.groupby('Attrition', sort=False).head(1).copy()
+    frame[ORDINAL_TESTS] = [[1, 1, 1, 1], [2, 2, 2, 2]]
+    trends = statistical_checks(frame).query("test == 'Spearman'")
+    assert len(trends) == 4
+    assert trends.status.eq('not_testable').all()
+    assert trends[['p_value', 'p_holm']].isna().all().all()
+    assert trends.assumption_note.str.contains('three observations').all()
 
 def test_holm_known_example():
     np.testing.assert_allclose(holm([.04,.01,.03]), [.06,.03,.06])
