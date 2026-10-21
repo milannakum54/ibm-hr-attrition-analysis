@@ -31,7 +31,7 @@ def numeric_plots(df, folder):
         ax.set_xlabel('Attrition'); ax.set_ylabel(col)
         ax.set_title(col + ' by attrition (outliers retained)')
         generated.append(save(fig, folder, name))
-    numeric = df.select_dtypes(include='number').drop(columns=['AttritionFlag'])
+        numeric = df.select_dtypes(include='number')
     fig, ax = plt.subplots(figsize=(13, 11))
     correlation = numeric.corr(method='spearman')
     if correlation.notna().any().any():
