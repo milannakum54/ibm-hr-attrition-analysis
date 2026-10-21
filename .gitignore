@@ -66,9 +66,6 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 
-# Scrapy stuff:
-.scrapy
-
 # Sphinx documentation
 docs/_build/
 
@@ -129,19 +126,10 @@ ipython_config.py
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
 
-# Celery stuff
-celerybeat-schedule*
-celerybeat.pid
-
 # Redis
 *.rdb
 *.aof
 *.pid
-
-# RabbitMQ
-mnesia/
-rabbitmq/
-rabbitmq-data/
 
 # ActiveMQ
 activemq-data/
@@ -218,3 +206,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+.analysis-*/
+.DS_Store

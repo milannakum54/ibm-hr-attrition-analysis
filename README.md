@@ -9,11 +9,11 @@ An exploratory Python study of the fictional IBM HR sample: data validation, gro
 | Milan Nakum | IU2441230688 | Preparation, categorical plots, setup and results |
 | Rudra Patel | IU2441230682 | Dictionary, numeric plots, statistics and optional model |
 
-The table lists each member's assigned responsibilities. The proposal repeats Milan's ID for Rudra; this table follows the cover and original repository README.
+The table lists each member's assigned responsibilities.
 
 ## Run on Windows
 
-Use Python 3.11 or later. From the repository folder:
+Use Python 3.14 (the version tested in CI). From the repository folder:
 
 ```powershell
 python -m venv .venv
@@ -35,12 +35,48 @@ This exports the cleaned data, audit, nine group tables, seven categorical figur
 
 For notebooks, select the environment interpreter in your editor, or run `.venv\Scripts\python.exe -m notebook`. Run the numbered notebooks in order from fresh kernels. The notebooks find the repository from its root or the notebooks folder.
 
+## Run on macOS / Linux
+
+Use Python 3.14 (the version tested in CI). From the repository folder:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python run_analysis.py --model
+python -m pytest -q
+```
+
+To run Milan's portion independently:
+
+```bash
+python run_milan.py
+python -m pytest tests/test_milan.py -q
+```
+
+For notebooks, run `python -m notebook` with the environment activated.
+
+## Key findings
+
+| Finding | Attrition rate |
+|---|---|
+| Overtime vs no overtime | 30.53% vs 10.44% |
+| Sales Representative | 39.76% |
+| Age 18–29 | 27.91% |
+| Job level 1 | 26.34% |
+
+![Attrition by overtime](visualizations/02_overtime.png)
+
+![Correlation heatmap](visualizations/09_correlation.png)
+
+These are descriptive group rates from a single snapshot and do not establish causes.
+
 ## Structure and outputs
 
 ```text
 data/raw/              Unchanged source CSV
 data/processed/        Generated cleaned CSV
-docs/                  Proposal, dictionary, source, team guide and prompts
+docs/                  Proposal, dictionary, source and team guide
 notebooks/             01 cleaning; 02a categorical; 02b numeric; 03 tests; 04 model
 src/                   Data preparation; categorical.py (Milan); numeric plots, statistics and model
 tests/                 Input, denominator and adjustment checks
@@ -50,6 +86,7 @@ run_analysis.py        Reproduce the analysis
 run_milan.py           Run Milan's portion independently
 requirements.txt       Direct dependencies
 requirements-lock.txt  Exact verified Python environment
+LICENSE                MIT license
 ```
 
 Read [computed results](reports/results.md), [team workflow](docs/team_workflow.md) and [faculty demo](docs/faculty_demo.md).
@@ -61,6 +98,10 @@ Validate missing values, CSV structure, known source categories, numeric fields,
 Categorical plots show within-group percentages and denominators; groups below 30 are flagged. Use Spearman correlations, chi-square tests with Cramer's V, and Mann-Whitney U with signed rank-biserial effects. Flag sparse expected counts and apply Holm adjustment across testable comparisons among the 12 planned tests. A missing class, constant category or zero rank variance is marked `not_testable`, with an explanation and no invented p-value. These tests are exploratory.
 
 Optional model: fixed stratified 80/20 split, training-only preprocessing, balanced logistic regression and majority baseline; report precision, recall, F1, ROC-AUC and confusion counts.
+
+## Deviations from the proposal
+
+The proposal planned to exclude DailyRate, HourlyRate and MonthlyRate if they were unrelated to income. Their Spearman correlations with income are 0.016, -0.020 and 0.054. We kept them because a weak correlation alone is not enough reason to drop a field.
 
 ## Input contract and verification
 
@@ -79,3 +120,7 @@ The dataset is fictional and does not describe actual IBM employees. A single sn
 ## Contribution evidence
 
 Use the commit history, completed reviews and team log to document contributions. Each member should be able to explain the methods and results in their assigned portion. Commit counts alone do not measure effort.
+
+## License
+
+Released under the MIT License. See [LICENSE](LICENSE).
