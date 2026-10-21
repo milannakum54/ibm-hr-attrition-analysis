@@ -1,0 +1,5 @@
+feature,q1,q3,iqr_flag_count,decision
+Age,30.0,43.0,0,Retained; statistical extremes are not automatically errors
+MonthlyIncome,2911.0,8379.0,114,Retained; statistical extremes are not automatically errors
+YearsAtCompany,3.0,9.0,104,Retained; statistical extremes are not automatically errors
+DistanceFromHome,2.0,14.0,0,Retained; statistical extremes are not automatically errors

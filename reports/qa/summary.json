@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-21",
+  "python": "3.14.7",
+  "platform": "Windows",
+  "tests": 310,
+  "failures": 0,
+  "randomized_cases": 140,
+  "test_duration_seconds": 40.63,
+  "packages": {
+    "pandas": "3.0.6",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2",
+    "scikit-learn": "1.9.1",
+    "pytest": "9.1.1"
+  },
+  "source_sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+  "notebooks": [
+    {
+      "file": "01_data_validation_cleaning.ipynb",
+      "executed_cells": 6
+    },
+    {
+      "file": "02a_categorical_visualization.ipynb",
+      "executed_cells": 5
+    },
+    {
+      "file": "02b_numeric_visualization.ipynb",
+      "executed_cells": 3
+    },
+    {
+      "file": "03_statistical_checks.ipynb",
+      "executed_cells": 3
+    },
+    {
+      "file": "04_optional_ml_model.ipynb",
+      "executed_cells": 3
+    }
+  ],
+  "notebook_runner_exit_code": 0,
+  "figures": 12,
+  "final_full_analysis": "passed, including model",
+  "milan_analysis": "passed, seven figures"
+}
