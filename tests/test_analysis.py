@@ -5,6 +5,8 @@ import pandas as pd
 import pytest
 from src.data import prepare, group_rates, RAW_NAME
 from src.statistics import holm
+from scipy.stats import spearmanr
+from src.statistics import holm, statistical_checks, ORDINAL_TESTS
 
 RAW = Path(__file__).resolve().parents[1]/'data'/'raw'/RAW_NAME
 
@@ -33,6 +35,26 @@ def test_conflicting_employee_is_rejected(tmp_path):
     df = pd.read_csv(RAW); df.loc[1,'EmployeeNumber'] = df.loc[0,'EmployeeNumber']
     path = tmp_path/'bad.csv'; df.to_csv(path,index=False)
     with pytest.raises(ValueError, match='Conflicting'):
+
+def test_ordinal_trend_tests_match_scipy(prepared):
+    result = statistical_checks(prepared).set_index('feature')
+    for col in ORDINAL_TESTS:
+        row = result.loc[col + ' (trend)']
+        rho, p = spearmanr(prepared[col], prepared.AttritionFlag)
+        assert row.test == 'Spearman' and row.status == 'ok'
+        assert row.effect == pytest.approx(rho)
+        assert row.p_value == pytest.approx(p)
+
+def test_ordinal_trend_tests_are_in_holm_family(prepared):
+    ok = statistical_checks(prepared).query("status == 'ok'")
+    assert (ok.test == 'Spearman').sum() == 4
+    np.testing.assert_allclose(ok.p_holm, holm(ok.p_value))
+    assert (ok.p_holm >= ok.p_value - 1e-12).all()
+
+def test_constant_ordinal_column_is_not_testable(prepared):
+    frame = prepared.copy(); frame['JobLevel'] = 1
+    row = statistical_checks(frame).set_index('feature').loc['JobLevel (trend)']
+    assert row.status == 'not_testable' and np.isnan(row.p_value)
         prepare(path)
 
 def test_holm_known_example():
